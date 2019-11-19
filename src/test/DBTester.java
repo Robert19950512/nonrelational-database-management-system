@@ -9,5 +9,21 @@ import org.junit.jupiter.api.Test;
 import hw5.DB;
 
 class DBTester {
+	
+	/**
+	 * Things to consider testing:
+	 * 
+	 * Properly creates directory for new DB (done)
+	 * Properly accesses existing directory for existing DB
+	 * Properly accesses collection
+	 * Properly drops a database
+	 * Special character handling?
+	 */
+	
+	@Test
+	public void testCreateDB() {
+		DB hw5 = new DB("hw5"); //call method
+		assertTrue(new File("testfiles/hw5").exists()); //verify results
+	}
 
 }
