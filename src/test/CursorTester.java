@@ -244,6 +244,7 @@ class CursorTester {
 		assertTrue(d1.getAsJsonPrimitive("name").getAsString().equals("embedded2"));
 	}
 	
+	// not necessarily to pass(to many layer of embedded)
 	@Test
 	public void testEmbeddedQuery2() {
 		String queryString = "{ \"embedded\":{\"key\":{\"$in\":[\"value1\",\"value2\"]}}}";

@@ -1,5 +1,7 @@
 package hw5;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -11,7 +13,18 @@ public class DBCollection {
 	 * with the given name. If that collection doesn't exist
 	 * it will be created.
 	 */
+	List<JsonObject> documents;
 	public DBCollection(DB database, String name) {
+		File collection = new File("testfiles/" + database.getName() + "/" + name + ".json");
+		if (!collection.exists()) {
+			try {
+				collection.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 	}
 	

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 
+import org.junit.After;
 import org.junit.jupiter.api.Test;
 
 import hw5.DB;
@@ -31,7 +32,7 @@ class DBTester {
 	public void testAccessDirAndCollection() {
 		DB hw5 = new DB("data"); //call method
 		DBCollection test = hw5.getCollection("test");
-		assertTrue(test.count() == 3);
+		assertTrue(new File("testfiles/data/test.json").exists());
 	}
 	
 	@Test
@@ -39,6 +40,26 @@ class DBTester {
 		DB hw5 = new DB("hw5"); 
 		hw5.dropDatabase();
 		assertFalse(new File("testfiles/hw5").exists());
+	}
+	@Test
+	public void testmakeCollection() {
+		DB hw5 = new DB("hw5"); 
+		hw5.getCollection("newCollection");
+		assertTrue(new File("testfiles/hw5/newCollection.json").exists());
+	}
+	
+	@Test
+	public void testDropWithCollection() {
+		DB hw5 = new DB("hw5"); 
+		hw5.getCollection("newCollection");
+		hw5.dropDatabase();
+		assertFalse(new File("testfiles/hw5").exists());
+	}
+	
+	@After
+	public void cleanUp() {
+		DB hw5 = new DB("hw5"); 
+		hw5.dropDatabase();
 	}
 	
 
