@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import com.google.gson.*;
 
+
 public class Document {
 	
 	/**
@@ -15,7 +16,9 @@ public class Document {
 	 * a file into an object that can be manipulated.
 	 */
 	public static JsonObject parse(String json) {
-		return null;
+		//Gson gson = new Gson();
+		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+		return jsonObject;
 	}
 	
 	/**
@@ -25,6 +28,7 @@ public class Document {
 	 * when writing data to disk.
 	 */
 	public static String toJsonString(JsonObject json) {
-		return null;
+		String jsonString = json.toString();
+		return jsonString;
 	}
 }

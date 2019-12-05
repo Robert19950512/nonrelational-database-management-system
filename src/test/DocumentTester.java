@@ -26,14 +26,15 @@ class DocumentTester {
 	
 	@Test
 	public void testParsePrimitive() {
-		String json = "{ \"key\":\"value\" }";//setup
+		String json = "{\"key\":\"value\"}";//setup
 		JsonObject results = Document.parse(json); //call method to be tested
+		
 		assertTrue(results.getAsJsonPrimitive("key").getAsString().equals("value")); //verify results
 	}
 	
 	@Test
 	public void testParseArray1() {
-		String json = "{ \"key\":\"[1,2,3]}";
+		String json = "{\"key\":[1,2,3]}";
 		JsonObject results = Document.parse(json); //call method to be tested
 		assertTrue(results.getAsJsonArray("key").get(0).getAsInt() == 1); //verify results
 		assertTrue(results.getAsJsonArray("key").get(1).getAsInt() == 2);
@@ -42,10 +43,10 @@ class DocumentTester {
 	
 	@Test
 	public void testParseArray2() {
-		String json = "{ \"key\":\"[1,\"two\",true]\" }";
+		String json = "{\"key\":[1,\"two\",true]}";
 		JsonObject results = Document.parse(json); //call method to be tested
 		assertTrue(results.getAsJsonArray("key").get(0).getAsInt() == 1); //verify results
-		assertTrue(results.getAsJsonArray("key").get(1).getAsString().equals("false"));
+		assertTrue(results.getAsJsonArray("key").get(1).getAsString().equals("two"));
 		assertTrue(results.getAsJsonArray("key").get(2).getAsBoolean());
 	}
 	
@@ -60,8 +61,9 @@ class DocumentTester {
 	public void testParseDoc2Layer() {
 		String json = "{ \"key\":{\"docKey\":[1,2]}}";
 		JsonObject results = Document.parse(json); //call method to be tested
-		assertTrue(results.getAsJsonObject("key").getAsJsonPrimitive("docKey").getAsJsonArray().get(0).getAsInt()==1);
-		assertTrue(results.getAsJsonObject("key").getAsJsonPrimitive("docKey").getAsJsonArray().get(1).getAsInt()==2);
+		//System.out.println(results.getAsJsonObject("key").getAsJsonPrimitive("docKey"));
+		assertTrue(results.getAsJsonObject("key").getAsJsonArray("docKey").get(0).getAsInt()==1);
+		assertTrue(results.getAsJsonObject("key").getAsJsonArray("docKey").get(1).getAsInt()==2);
 		
 		json = "{ \"key\":{\"docKey\":{\"eDockey\":\"eDocValue\"}}}";
 		results = Document.parse(json);
@@ -74,15 +76,17 @@ class DocumentTester {
 		assertTrue(results.getAsJsonArray("key").get(0).getAsJsonArray().get(0).getAsInt() == 1);
 		assertTrue(results.getAsJsonArray("key").get(1).getAsJsonArray().get(0).getAsInt() == 3);
 		
-		json = "{ \"key\":[{\"docKey\":\"docValue1\"},{\"docKey\":\"docValue2\"}]}";
+		json = "{\"key\":[{\"docKey\":\"docValue1\"},{\"docKey\":\"docValue2\"}]}";
 		results = Document.parse(json);
+		
 		assertTrue(results.getAsJsonArray("key").get(0).getAsJsonObject().getAsJsonPrimitive("docKey").getAsString().equals("docValue1"));
+		//System.out.println(results.getAsJsonArray("key").get(0));
 		assertTrue(results.getAsJsonArray("key").get(1).getAsJsonObject().getAsJsonPrimitive("docKey").getAsString().equals("docValue2"));
 	}
 	
 	@Test
 	public void testJsonToStringEasy() {
-		String json = "{ \"key\":\"value\" }";//setup
+		String json = "{\"key\":\"value\"}";//setup
 		JsonObject obj = Document.parse(json); 
 		String result = Document.toJsonString(obj);
 		assertTrue(json.equals(result));
@@ -90,10 +94,11 @@ class DocumentTester {
 	
 	@Test
 	public void testJsonToString() {
-		String json = "{ \"key\":\"[1,2,3]}";
+		String json = "{\"key\":[1,2,3]}";
 		JsonObject results = Document.parse(json);
 		assertTrue(Document.toJsonString(results).equals(json));
-		json = "{ \"key\":[{\"docKey\":\"docValue1\"},{\"docKey\":\"docValue2\"}]}";
+		json = "{\"key\":[{\"docKey\":\"docValue1\"},{\"docKey\":\"docValue2\"}]}";
+		results = Document.parse(json);
 		assertTrue(Document.toJsonString(results).equals(json));
 	}
 	
