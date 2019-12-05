@@ -38,6 +38,7 @@ class DBTester {
 	@Test
 	public void testDrop() {
 		DB hw5 = new DB("hw5"); 
+		assertTrue(new File("testfiles/hw5").exists());
 		hw5.dropDatabase();
 		assertFalse(new File("testfiles/hw5").exists());
 	}
@@ -52,6 +53,7 @@ class DBTester {
 	public void testDropWithCollection() {
 		DB hw5 = new DB("hw5"); 
 		hw5.getCollection("newCollection");
+		assertTrue(new File("testfiles/hw5/newCollection.json").exists());
 		hw5.dropDatabase();
 		assertFalse(new File("testfiles/hw5").exists());
 	}

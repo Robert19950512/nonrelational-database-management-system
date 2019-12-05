@@ -105,7 +105,7 @@ public class DBCollection {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(this.path,true));
 			for (JsonObject doc : documents) {
-				doc.addProperty("_id", System.currentTimeMillis());
+				doc.addProperty("_id", System.nanoTime());
 				this.documents.add(doc);
 				bw.write(doc.toString());
 				bw.newLine();
@@ -131,7 +131,7 @@ public class DBCollection {
 	 * 				false if only the first matching document should be updated
 	 */
 	public void update(JsonObject query, JsonObject update, boolean multi) {
-		
+		DBCursor target = this.find(query);
 	}
 	
 	/**
@@ -169,6 +169,9 @@ public class DBCollection {
 	 * Drops this collection, removing all of the documents it contains from the DB
 	 */
 	public void drop() {
+		this.documents = new ArrayList<>();
+		File fl = new File(this.path);
+		fl.delete();
 		
 	}
 	

@@ -7,6 +7,8 @@ import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonObject;
@@ -38,11 +40,6 @@ class CollectionTester {
 	 * drop
 	 */
 	
-	@Before
-	public void setup() {
-		DB db = new DB("CollectionTest");
-		db.dropDatabase();
-	}
 	@Test
 	public void testGetDocument() {
 		DB db = new DB("data");
@@ -150,7 +147,7 @@ class CollectionTester {
 		assertFalse(new File("testfiles/CollectionTest/cTest").exists());
 	}
 	
-	@After
+	@AfterEach
 	public void cleanUp() {
 		DB db = new DB("CollectionTest");
 		DBCollection testCollection = db.getCollection("cTest");
