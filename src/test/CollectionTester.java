@@ -6,6 +6,7 @@ import java.io.File;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonObject;
@@ -37,6 +38,11 @@ class CollectionTester {
 	 * drop
 	 */
 	
+	@Before
+	public void setup() {
+		DB db = new DB("CollectionTest");
+		db.dropDatabase();
+	}
 	@Test
 	public void testGetDocument() {
 		DB db = new DB("data");
@@ -44,6 +50,8 @@ class CollectionTester {
 		System.out.println(test.documents.size());
 		JsonObject primitive = test.getDocument(0);
 		assertTrue(primitive.getAsJsonPrimitive("key").getAsString().equals("value"));
+		assertTrue(test.getDocument(1).getAsJsonObject("embedded").getAsJsonPrimitive("key2").getAsString().equals("value2"));
+		assertTrue(test.getDocument(2).getAsJsonArray("array").get(0).getAsString().equals("one"));
 	}
 	
 	@Test
@@ -59,8 +67,7 @@ class CollectionTester {
 		DBCollection testCollection = db.getCollection("cTest");
 		String json = "{ \"key\":\"value\" }";//setup
 		JsonObject toInsert = Document.parse(json); //call method to be tested
-		testCollection.insert(toInsert);
-		
+		testCollection.insert(toInsert);		
 		assertTrue(testCollection.count() == 1);
 		//id is added
 		assertFalse(testCollection.getDocument(0).getAsJsonPrimitive("_id").isJsonNull());
@@ -76,9 +83,12 @@ class CollectionTester {
 		JsonObject toInsert = Document.parse(json); //call method to be tested
 		testCollection.insert(toInsert);
 		assertTrue(testCollection.getDocument(0).getAsJsonPrimitive("key").getAsString().equals("value"));
+		
 		String updateJson = "{ \"key\":\"updateValue\" }";
 		JsonObject update = Document.parse(updateJson);
 		testCollection.update(toInsert, update, false);
+		testCollection = db.getCollection("cTest");
+		// reload from file system to check weather actaull file is changed.
 		assertTrue(testCollection.getDocument(0).getAsJsonPrimitive("key").getAsString().equals("updateValue"));
 		
 	}
@@ -108,6 +118,7 @@ class CollectionTester {
 		String json = "{ \"key\":\"value\" }";//setup
 		JsonObject toInsert = Document.parse(json); //call method to be tested
 		testCollection.insert(toInsert);
+		assertTrue(testCollection.count()==1);
 		testCollection.remove(toInsert, false);
 		assertTrue(testCollection.count()==0);
 		

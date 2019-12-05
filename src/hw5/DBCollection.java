@@ -1,9 +1,11 @@
 package hw5;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,12 @@ public class DBCollection {
 	 */
 	public List<JsonObject> documents;
 	private String name;
+	private String path;
 	public DBCollection(DB database, String name) {
-		File collection = new File("testfiles/" + database.getName() + "/" + name + ".json");
 		documents = new ArrayList<>();
 		this.name = name;
+		this.path = "testfiles/" + database.getName() + "/" + name + ".json";
+		File collection = new File(path);
 		if (!collection.exists()) {
 			try {
 				collection.createNewFile();
@@ -76,7 +80,7 @@ public class DBCollection {
 	 * @return
 	 */
 	public DBCursor find(JsonObject query) {
-		return null;
+		return new DBCursor(this,query,null);
 	}
 	
 	/**
@@ -87,7 +91,7 @@ public class DBCollection {
 	 * @return
 	 */
 	public DBCursor find(JsonObject query, JsonObject projection) {
-		return null;
+		return new DBCursor(this,query,projection);
 	}
 	
 	/**
@@ -98,6 +102,22 @@ public class DBCollection {
 	 * @param documents
 	 */
 	public void insert(JsonObject... documents) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(this.path,true));
+			for (JsonObject doc : documents) {
+				doc.addProperty("_id", System.currentTimeMillis());
+				this.documents.add(doc);
+				bw.write(doc.toString());
+				bw.newLine();
+				bw.newLine();
+				
+			}
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 	}
