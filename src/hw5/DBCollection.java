@@ -132,6 +132,56 @@ public class DBCollection {
 	 */
 	public void update(JsonObject query, JsonObject update, boolean multi) {
 		DBCursor target = this.find(query);
+		if (multi) {
+			while (target.hasNext()) {
+				JsonObject jo = target.next();
+				for (int i = 0 ; i < documents.size() ; i++) {
+					JsonObject old = documents.get(i);
+					if (old == jo) {
+						documents.set(i, update);
+						break;
+					}
+				}
+			}
+		}else {
+			if (target.hasNext()) {
+				JsonObject jo = target.next();
+				for (int i = 0 ; i < documents.size() ; i++) {
+					JsonObject old = documents.get(i);
+					if (old == jo) {
+						documents.set(i, update);
+						break;
+					}
+				}
+			}
+		}
+		writeToFile();
+		 
+	}
+	public void writeToFile() {
+		File oldf = new File(path);
+		oldf.delete();
+		try {
+			oldf.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(this.path,true));
+			for (JsonObject doc : documents) {
+				doc.addProperty("_id", System.nanoTime());
+				this.documents.add(doc);
+				bw.write(doc.toString());
+				bw.newLine();
+				bw.newLine();
+				
+			}
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -142,7 +192,17 @@ public class DBCollection {
 	 * 				false if only the first matching document should be updated
 	 */
 	public void remove(JsonObject query, boolean multi) {
-		
+		DBCursor target = this.find(query);
+		if (multi) {
+			while(target.hasNext()) {
+				documents.remove(target.next());
+			}
+		} else {
+			if (target.hasNext()) {
+				documents.remove(target.next());
+			}
+		}
+		writeToFile();
 	}
 	
 	/**
