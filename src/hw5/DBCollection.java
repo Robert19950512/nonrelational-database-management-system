@@ -47,7 +47,9 @@ public class DBCollection {
 					}
 					line = br.readLine();
 				}
-				this.documents.add(Document.parse(sb.toString()));
+				if (sb.length() != 0) {
+					this.documents.add(Document.parse(sb.toString()));
+				}
 				br.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
