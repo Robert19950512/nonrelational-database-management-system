@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonObject;
@@ -25,7 +26,7 @@ class CursorTester {
 	DB db;
 	DBCollection test;
 	DBCollection test2;
-	@Before
+	@BeforeEach
 	public void setup() {
 		db = new DB("data");
 		test = db.getCollection("test");
