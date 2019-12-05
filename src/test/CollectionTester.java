@@ -41,6 +41,7 @@ class CollectionTester {
 	public void testGetDocument() {
 		DB db = new DB("data");
 		DBCollection test = db.getCollection("test");
+		System.out.println(test.documents.size());
 		JsonObject primitive = test.getDocument(0);
 		assertTrue(primitive.getAsJsonPrimitive("key").getAsString().equals("value"));
 	}
@@ -49,7 +50,7 @@ class CollectionTester {
 	public void testCreatNewCollection() {
 		DB db = new DB("CollectionTest");
 		db.getCollection("cTest");
-		assertTrue(new File("testfiles/CollectionTest/cTest").exists());
+		assertTrue(new File("testfiles/CollectionTest/cTest.json").exists());
 	}
 	
 	@Test
@@ -119,8 +120,11 @@ class CollectionTester {
 		String json = "{ \"key\":\"value\" }";//setup
 		JsonObject toInsert = Document.parse(json); //call method to be tested
 		testCollection.insert(toInsert);
+		assertTrue(testCollection.count()==1);
 		testCollection.insert(toInsert);
+		assertTrue(testCollection.count()==2);
 		testCollection.insert(toInsert);
+		assertTrue(testCollection.count()==3);
 		testCollection.remove(toInsert, true);
 		assertTrue(testCollection.count()==0);
 		

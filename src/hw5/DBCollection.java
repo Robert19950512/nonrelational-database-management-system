@@ -1,7 +1,11 @@
 package hw5;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -13,9 +17,12 @@ public class DBCollection {
 	 * with the given name. If that collection doesn't exist
 	 * it will be created.
 	 */
-	List<JsonObject> documents;
+	public List<JsonObject> documents;
+	private String name;
 	public DBCollection(DB database, String name) {
 		File collection = new File("testfiles/" + database.getName() + "/" + name + ".json");
+		documents = new ArrayList<>();
+		this.name = name;
 		if (!collection.exists()) {
 			try {
 				collection.createNewFile();
@@ -24,8 +31,32 @@ public class DBCollection {
 				e.printStackTrace();
 			}
 		}
-		
-		
+		try {
+			FileReader fl = new FileReader(collection);
+			BufferedReader br = new BufferedReader(fl);
+			StringBuilder sb = new StringBuilder();
+			String line;
+			try {
+				line = br.readLine();
+				while(line != null) {
+					if (!line.trim().isEmpty()) {
+						sb.append(line);
+					} else {
+						this.documents.add(Document.parse(sb.toString()));
+						sb = new StringBuilder();
+					}
+					line = br.readLine();
+				}
+				this.documents.add(Document.parse(sb.toString()));
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -33,7 +64,7 @@ public class DBCollection {
 	 * this collection.
 	 */
 	public DBCursor find() {
-		return null;
+		return new DBCursor(this, null, null);
 	}
 	
 	/**
@@ -66,6 +97,7 @@ public class DBCollection {
 	 */
 	public void insert(JsonObject... documents) {
 		
+		
 	}
 	
 	/**
@@ -95,11 +127,11 @@ public class DBCollection {
 	 * Returns the number of documents in this collection
 	 */
 	public long count() {
-		return 0;
+		return this.documents.size();
 	}
 	
 	public String getName() {
-		return null;
+		return this.name;
 	}
 	
 	/**
@@ -108,7 +140,7 @@ public class DBCollection {
 	 * Use the parse function from the document class to create the document object
 	 */
 	public JsonObject getDocument(int i) {
-		return null;
+		return this.documents.get(i);
 	}
 	
 	/**
