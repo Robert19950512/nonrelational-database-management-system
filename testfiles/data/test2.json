@@ -3,17 +3,17 @@
 }
 	
 {
-	"embedded": { "key": "value1" }
+	"embedded": { "key": "value1" },
     "name":"embedded1"
 }
 
 {
-    "embedded": { "key": "value2" }
+    "embedded": { "key": "value2" },
     "name":"embedded2"
 }
 
 {
-    "embedded": { "key": "value3" }
+    "embedded": { "key": "value3" },
     "name":"embedded3"
 }
 	
@@ -22,28 +22,28 @@
 }
 
 {
-    "name": "student1"
-    "score1" : "95"
+    "name": "student1",
+    "score1" : "95",
     "score2":"99"
 }
 
 {
-    "name": "student1"
-    "score3" : "90"
+    "name": "student1",
+    "score3" : "90",
     "score4":"92"
 }
 
 {
-    "name": "s1"
+    "name": "s1",
     "value":1
 }
 
 {
-    "name": "s2"
+    "name":"s2",
     "value":2
 }
 
 {
-    "name": "s3"
+    "name": "s3",
     "value":3
 }
