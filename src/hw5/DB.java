@@ -2,7 +2,11 @@ package hw5;
 
 import java.io.File;
 import java.io.IOException;
-
+/*
+ * Student 1 name: Fa Long (id:462512)
+ * Student 2 name: Zhuo Wei (id: 462473)
+ * Date: Dec 6th, 2019
+ */
 public class DB {
 
 	/**

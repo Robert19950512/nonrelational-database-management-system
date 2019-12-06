@@ -1,13 +1,14 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
 import com.google.gson.JsonObject;
-
 import hw5.Document;
-
+/*
+ * Student 1 name: Fa Long (id:462512)
+ * Student 2 name: Zhuo Wei (id: 462473)
+ * Date: Dec 6th, 2019
+ */
 class DocumentTester {
 	
 	/*

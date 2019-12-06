@@ -1,5 +1,9 @@
 package hw5;
-
+/*
+ * Student 1 name: Fa Long (id:462512)
+ * Student 2 name: Zhuo Wei (id: 462473)
+ * Date: Dec 6th, 2019
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
