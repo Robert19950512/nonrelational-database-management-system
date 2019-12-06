@@ -139,7 +139,7 @@ class CursorTester {
 		// find query with equals relational operation
 		String queryString = "{\"value\":{\"$eq\":1}}";
 		JsonObject query = Document.parse(queryString);
-		DBCursor results = test3.find(query);
+		DBCursor results = test2.find(query);
 		assertTrue(results.count() == 1);
 		JsonObject d1 = results.next();
 		assertTrue(d1.getAsJsonPrimitive("name").getAsString().equals("s1"));
@@ -154,7 +154,7 @@ class CursorTester {
 		
 		String queryString = "{ \"value\":{\"$gt\":2}}";
 		JsonObject query = Document.parse(queryString);
-		DBCursor results = test3.find(query);
+		DBCursor results = test2.find(query);
 		assertTrue(results.count() == 1);
 		JsonObject d1 = results.next();
 		assertTrue(d1.getAsJsonPrimitive("name").getAsString().equals("s3"));
